@@ -26,5 +26,6 @@ class MetaData:
             y = segment.get_y(point)
             if y:
                 return y
+        return None
 
 

@@ -24,6 +24,6 @@ class Segment:
 
     def get_y(self, point):
         for i in range(self._d):
-            if point[i] < self._b_low[i] or point[i] > self._b_high[i]:
+            if point[i] < self._b_low[i] or self._b_high[i] < point[i]:
                 return None
-        return np.dot(point, self.coef_A) + self._coef_b
+        return np.dot(point, self._coef_A) + self._coef_b
