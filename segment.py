@@ -22,3 +22,6 @@ class Segment:
         coefficients = {"coefficients": {f"x{i+1}": self._coef_A[i] for i in range(self._d)}}
         return [ranges, coefficients]
 
+    #ef get_y(self, point):
+
+

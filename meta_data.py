@@ -18,3 +18,11 @@ class MetaData:
     @property
     def segments(self):
         return self._segments
+
+    def get_y(self, point: List):
+        for segment in self._segments:
+            y = segment.get_y(point)
+            if y:
+                return y
+
+
