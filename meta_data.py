@@ -20,6 +20,8 @@ class MetaData:
         return self._segments
 
     def get_y(self, point: List):
+        if len(point) != self._d:
+            raise ValueError("A point must have the same dimensions as its dimensions")
         for segment in self._segments:
             y = segment.get_y(point)
             if y:
