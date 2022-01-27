@@ -18,10 +18,12 @@ class Segment:
         return np.column_stack((x_samples, y_samples))
 
     def get_data(self):
-        ranges = {"ranges": {f"x{i+1}": [self._b_low[i], self._b_high[i]] for i in range(self._d)}}
-        coefficients = {"coefficients": {f"x{i+1}": self._coef_A[i] for i in range(self._d)}}
+        ranges = {"ranges": {f"x{i + 1}": [self._b_low[i], self._b_high[i]] for i in range(self._d)}}
+        coefficients = {"coefficients": {f"x{i + 1}": self._coef_A[i] for i in range(self._d)}}
         return [ranges, coefficients]
 
-    #ef get_y(self, point):
-
-
+    def get_y(self, point):
+        for i in range(self._d):
+            if point[i] < self._b_low[i] or point[i] > self._b_high[i]:
+                return None
+        return np.dot(point, self.coef_A) + self._coef_b
