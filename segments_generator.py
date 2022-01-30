@@ -11,16 +11,10 @@ class SegmentsGenerator:
         x_high = [np.arange(b_low[i] + 1, b_high[i], 1) for i in range(d)]
         low_edges = []
         high_edges = []
-        counter = 0
         for low_edge in itertools.product(*x_low):
             low_edges.append(low_edge)
-            counter += 1
-        counter = 0
         for high_edge in itertools.product(*x_high):
-            counter += 1
             high_edges.append(high_edge)
-        for i in range(len(low_edges)):
-            print(low_edges[i], high_edges[i])
         segments_list = []
         for i in range(len(low_edges)):
             segments_list.append(Segment(d, low_edges[i], high_edges[i]))
