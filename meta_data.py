@@ -27,5 +27,3 @@ class MetaData:
             if y:
                 return y
         return None
-
-
