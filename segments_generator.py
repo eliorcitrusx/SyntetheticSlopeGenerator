@@ -1,7 +1,8 @@
-import numpy as np
+from itertools import product
 from typing import List
+import numpy as np
 from segment import Segment
-import itertools
+
 """
     This class create a partition of the space into rectangles, and creates the segments.
     Currently the rectangles are of equal size.
@@ -22,18 +23,19 @@ import itertools
     
 """
 
+
 class SegmentsGenerator:
-    def __init__(self, d: int, b_low: List, b_high: List):
-        self._segments = self.generate_segments(d, b_low, b_high)
+    def __init__(self, dimensions: int, boundaries_low: List, boundaries_high: List):
+        self._segments = self.generate_segments(dimensions, boundaries_low, boundaries_high)
 
     @property
     def segments(self):
         return self._segments
 
     @staticmethod
-    def generate_segments(d: int, b_low: List, b_high: List) -> List[Segment]:
-        x_low = [np.arange(b_low[i], b_high[i] - 1, 1) for i in range(d)]
-        x_high = [np.arange(b_low[i] + 1, b_high[i], 1) for i in range(d)]
-        low_edges = [low_edge for low_edge in itertools.product(*x_low)]
-        high_edges = [high_edge for high_edge in itertools.product(*x_high)]
-        return [Segment(d, low_edges[i], high_edges[i]) for i in range(len(low_edges))]
+    def generate_segments(dimensions: int, boundaries_low: List, boundaries_high: List) -> List[Segment]:
+        x_boundaries_low = [np.arange(boundaries_low[i], boundaries_high[i] - 1, 1) for i in range(dimensions)]
+        x_boundaries_high = [np.arange(boundaries_low[i] + 1, boundaries_high[i], 1) for i in range(dimensions)]
+        low_edges = [low_edge for low_edge in product(*x_boundaries_low)]
+        high_edges = [high_edge for high_edge in product(*x_boundaries_high)]
+        return [Segment(dimensions, low_edges[i], high_edges[i]) for i in range(len(low_edges))]
