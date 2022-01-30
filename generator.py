@@ -13,4 +13,3 @@ class Generator:
         df = pd.DataFrame(samples, columns=columns)
         df = df.sample(frac=1).reset_index(drop=True)
         df.to_csv("dataset.csv")
-
