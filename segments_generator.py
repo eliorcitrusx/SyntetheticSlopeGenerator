@@ -7,15 +7,8 @@ from type import Type
 
 class SegmentsGenerator:
     def __init__(self, d: int, b_low: List, b_high: List):
-        x_low = [[] for _ in range(d)]
-        x_high = [[] for _ in range(d)]
-        for i in range(d):
-            x_low[i] = np.arange(b_low[i], b_high[i] - 1, 1)
-            x_high[i] = np.arange(b_low[i] + 1, b_high[i], 1)
-            print(i)
-        grid_low_edge = np.meshgrid(*x_low)
-        grid_high_edge = np.meshgrid(*x_high)
-        segment_vec = np.vectorize(Segment)
+        x_low = [np.arange(b_low[i], b_high[i] - 1, 1) for i in range(d)]
+        x_high = [np.arange(b_low[i] + 1, b_high[i], 1) for i in range(d)]
         low_edges = []
         high_edges = []
         counter = 0
@@ -26,21 +19,23 @@ class SegmentsGenerator:
         for high_edge in itertools.product(*x_high):
             counter += 1
             high_edges.append(high_edge)
-        for i in range (len(low_edges)):
+        for i in range(len(low_edges)):
             print(low_edges[i], high_edges[i])
-        segments=[]
-        for index in range(len(low_edges)):
-            segments.append(Segment(d, low_edge, high_edge))
-        self._segments = segments
+        segments_list = []
+        for i in range(len(low_edges)):
+            segments_list.append(Segment(d, low_edges[i], high_edges[i]))
+        self._segments = segments_list
+
     @property
     def segments(self):
         return self._segments
 
-
-segments = SegmentsGenerator(2, np.array([2, 5]), np.array([8, 9]))
-p = segments.get_segments()
-
-print(p[0])
-print(p[0].get_data())
-
-#print(p[0])
+#
+# segments = SegmentsGenerator(2, np.array([2, 5]), np.array([8, 9]))
+# print(type(segments))
+# p = segments.segments
+#
+# print(type(p))
+#
+# for segment in p:
+#     print(segment.get_data())
