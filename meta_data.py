@@ -8,7 +8,7 @@ from segment import Segment
 class MetaData:
     _d: int
     _segments: List[Segment]
-    _type: Type
+    _type: Type = Type.CONTINUOUS
     _noise: int = 0
 
     @property
