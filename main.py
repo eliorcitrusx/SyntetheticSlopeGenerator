@@ -4,10 +4,14 @@ from segment import Segment
 from generator import Generator
 from typing import List
 from ground_truth import GroundTruth
+from segments_generator import SegmentsGenerator
 
 class Main:
-    def __init__(self, d: int, data_type: Type, noise: int):
-        self.meta_data = MetaData(d, self.create_segments(), data_type, noise)
+    def __init__(self, *args):
+        if len(args) == 1:
+            self.meta_data = 0  # get segments from json
+        else:
+            self.meta_data = MetaData(args[0], SegmentsGenerator(args[1], args[2], args[3]), args[4]) # get segments
 
     @staticmethod
     def create_segments():

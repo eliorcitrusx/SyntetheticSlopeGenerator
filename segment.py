@@ -11,21 +11,22 @@ class Segment:
         self._b_low = b_low
         self._b_high = b_high
         self._coef_A = coef_A if coef_A else np.random.rand(d) * randint(1, maxsize)
-        self._coef_b = coef_B if coef_B else random() * randint(1, maxsize)
+        self._coef_B = coef_B if coef_B else random() * randint(1, maxsize)
         self._m = m if m else randint(1, 2 * self._d)
 
     def generate_samples(self):
         x_samples = np.random.rand(self._m, self._d)
-        y_samples = np.dot(x_samples, self._coef_A) + self._coef_b
+        y_samples = np.dot(x_samples, self._coef_A) + self._coef_B
         return np.column_stack((x_samples, y_samples))
 
     def get_data(self):
         ranges = {"ranges": {f"x{i + 1}": [self._b_low[i], self._b_high[i]] for i in range(self._d)}}
-        coefficients = {"coefficients": {f"x{i + 1}": self._coef_A[i] for i in range(self._d)}}
-        return [ranges, coefficients]
+        coefficients = {"coefficients": {f"x{i + 1}": [self._coef_A[i], self._coef_B] for i in range(self._d)}}
+        m = {"m": self._m}
+        return [ranges, coefficients, m]
 
     def get_y(self, point: List):
         for i in range(self._d):
             if point[i] < self._b_low[i] or self._b_high[i] < point[i]:
                 return None
-        return np.dot(point, self._coef_A) + self._coef_b
+        return np.dot(point, self._coef_A) + self._coef_B
