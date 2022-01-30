@@ -3,6 +3,35 @@ from typing import List
 from type import Type
 from segment import Segment
 
+"""
+    This class holds the information about the space and its partition to segments.
+    ...
+    
+    Attributes
+    ----------
+    d : int
+        The dimension of the space.
+    
+    segments : List[Segment]
+        A list of non-overlapping segments. Each segment is defined by its boundaries and holds a linear function.
+    
+    type : Type(ENUM)
+        The type of labels needs to be recognized by the Citron tree.
+        The type is either categorical, continuous, or binary.
+    
+    Methods : 
+    -------
+    d()
+        Returns the dimension of the space.
+        
+    segments()
+        Returns a list of the segments defined by the partition. Each segments holds its boundaries and a linear function.
+        
+    get_y(point: List)
+        given a query point, finds the corresponding segment and returns the label obtained for the query point 
+        by the linear function defined  in the segment.
+        If the query point is not part of the space, the function returns None. 
+"""
 
 @dataclass
 class MetaData:

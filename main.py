@@ -8,6 +8,13 @@ import numpy as np
 
 
 class Main:
+
+    """A bird with a flight speed exceeding that of an unladen swallow.
+
+    Attributes:
+        flight_speed     The maximum speed that such a bird can attain.
+        nesting_grounds  The locale where these birds congregate to reproduce.
+    """
     def __init__(self, *args):
         if len(args) == 1:
             d = len(args[0]["coefficients"])

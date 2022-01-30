@@ -3,6 +3,48 @@ import numpy as np
 from sys import maxsize
 from typing import List
 
+"""
+    This class holds the information of a segment.
+    Each segment is a d- dimensional rectangle and holds a unique linear function.
+    Each the boundaries of the segments are difined by two points -- 
+    the lowest valued point, and the highest valued point in the rectangle.
+    ...
+    
+    Attributes
+    ----------
+    d : int
+        The dimension of the space.
+    
+    b_low : 
+        A point in te d-dimensional space.
+        This point defines the lowest corner of the rectangle.
+    
+    b_high : 
+        A point in te d-dimensional space.
+        This point defines the highest corner of the rectangle.
+    
+    coef_A :
+        The slope of the linear function. A d-dimensional vector.
+        
+    coef_B :
+        The bias of the linear function. A d-dimensional vector.
+        
+    m :
+        The number of sample points drawn within the boundaries of the segment. 
+    
+    Methods
+    -------
+    generate_samples()
+        This method samples a set of points from each segment and returns the points and their corresponding y-values.
+    
+    get_data()
+        This method returns a dictionary with the information of the segment.
+        
+    get_y(point)
+        this method returns the y-value for a queried point x.
+        If the point is outside the boundaries of the rectangle the function returns None. 
+"""
+
 
 class Segment:
     def __init__(self, d: int, b_low: np.ndarray, b_high: np.ndarray, coef_A: np.ndarray = None, coef_B: float = None,
