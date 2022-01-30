@@ -15,10 +15,15 @@ class SegmentsGenerator:
         grid_low_edge = np.meshgrid(*x_low)
         grid_high_edge = np.meshgrid(*x_high)
         segment_vec = np.vectorize(Segment)
-        segments = segment_vec(d, x_low, x_high)
-        return segments
+        self._segments = segment_vec(d, x_low, x_high)
+
+    def get_segments(self):
+        return self._segments
 
 
-p = SegmentsGenerator(2, np.array([2, 2]), np.array([4, 4]))
+segments = SegmentsGenerator(2, np.array([2, 2]), np.array([4, 4]))
+p = segments.get_segments()[0]
 
-print(p)
+print(p[0].get_data())
+
+#print(p[0])
