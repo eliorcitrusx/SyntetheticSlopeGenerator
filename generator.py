@@ -10,12 +10,14 @@ class Generator:
     Attributes
     ----------
     meta_data : MetaData
-        This instance of MetaData holds the information of the segments and the corresponding linear function of each segment.
+        This instance of MetaData holds the information of the segments and the corresponding linear function of each
+        segment.
 
     Methods
     -------
     create_dataset()
-        This function returns the samples a set of points from each segment and returns the points and their corresponding y-values.
+        This function returns the samples a set of points from each segment and returns the points and their
+        corresponding y-values.
     """
 
     def __init__(self, meta_data: MetaData):

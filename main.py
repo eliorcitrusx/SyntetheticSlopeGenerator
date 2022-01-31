@@ -1,4 +1,3 @@
-from typing import List, Optional
 from generator import Generator
 from ground_truth import GroundTruth
 from meta_data import MetaData
@@ -20,6 +19,7 @@ class Main:
             self._meta_data = self.load_from_json(args[0])
         else:
             self._meta_data = MetaData(args[0], SegmentsGenerator(args[0], args[1], args[2]).segments)
+        self._ground_truth = GroundTruth(self._meta_data)
 
     @staticmethod
     def load_from_json(json) -> MetaData:
@@ -41,5 +41,8 @@ class Main:
     def export_to_json(self):
         return [segment.export_to_json() for segment in self._meta_data.segments]
 
-    def get_y_value(self, point: List) -> Optional[float]:
-        return GroundTruth(self._meta_data).get_y_value(point)
+    def get_y_values(self, points: np.ndarray) -> np.ndarray:
+        return self._ground_truth.get_y_values(points)
+
+    def get_coefficients_values(self, points: np.ndarray) -> np.ndarray:
+        return self._ground_truth.get_coefficients_values(points)

@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 from random import random, randint
 from sys import maxsize
 import numpy as np
@@ -6,7 +6,7 @@ import numpy as np
 """
     This class holds the information of a segment.
     Each segment is a d- dimensional rectangle and holds a unique linear function.
-    Each the boundaries of the segments are difined by two points -- 
+    Each the boundaries of the segments are defined by two points -- 
     the lowest valued point, and the highest valued point in the rectangle.
     ...
     
@@ -67,8 +67,14 @@ class Segment:
         return {"ranges": ranges, "coefficients_A": coefficients_A, "coefficients_B": self._coefficients_B,
                 "data_samples_number": self._data_samples_number}
 
-    def get_y_value(self, point: List) -> Optional[float]:
+    def get_y_value(self, point: np.ndarray) -> Optional[float]:
         for i in range(self._dimensions):
             if point[i] < self._boundaries_low[i] or self._boundaries_high[i] < point[i]:
                 return None
         return np.dot(point, self._coefficients_A) + self._coefficients_B
+
+    def get_coefficients_values(self, point: np.ndarray) -> Optional[np.darray]:
+        for i in range(self._dimensions):
+            if point[i] < self._boundaries_low[i] or self._boundaries_high[i] < point[i]:
+                return None
+        return np.append(self._coefficients_A, self._coefficients_B)
