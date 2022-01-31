@@ -48,13 +48,17 @@ import numpy as np
 
 class Segment:
     def __init__(self, dimensions: int, boundaries_low: np.ndarray, boundaries_high: np.ndarray,
-                 coefficients_A: np.ndarray = None, coefficients_B: float = None, data_samples_number: int = None):
+                 data_samples_min: int, data_samples_max: int, coefficients_A: np.ndarray = None,
+                 coefficients_B: float = None, data_samples_number: int = None):
         self._dimensions = dimensions
         self._boundaries_low = boundaries_low
         self._boundaries_high = boundaries_high
+        self._data_samples_min = data_samples_min
+        self._data_samples_max = data_samples_max
         self._coefficients_A = coefficients_A if coefficients_A else np.random.rand(dimensions) * randint(1, maxsize)
         self._coefficients_B = coefficients_B if coefficients_B else random() * randint(1, maxsize)
-        self._data_samples_number = data_samples_number if data_samples_number else randint(1, 2 * dimensions)
+        self._data_samples_number = data_samples_number if data_samples_number else randint(data_samples_min,
+                                                                                            data_samples_max)
 
     def generate_data_samples(self) -> np.ndarray:
         x_samples = np.random.rand(self._data_samples_number, self._dimensions)
@@ -64,8 +68,10 @@ class Segment:
     def export_to_json(self):
         ranges = {f"x{i + 1}": [self._boundaries_low[i], self._boundaries_high[i]] for i in range(self._dimensions)}
         coefficients_A = {f"x{i + 1}": self._coefficients_A[i] for i in range(self._dimensions)}
+        data_samples = {"min": self._data_samples_min, "max": self._data_samples_max,
+                        "number": self._data_samples_number}
         return {"ranges": ranges, "coefficients_A": coefficients_A, "coefficients_B": self._coefficients_B,
-                "data_samples_number": self._data_samples_number}
+                "data_samples": data_samples}
 
     def get_y_value(self, point: np.ndarray) -> Optional[float]:
         for i in range(self._dimensions):
@@ -73,7 +79,7 @@ class Segment:
                 return None
         return np.dot(point, self._coefficients_A) + self._coefficients_B
 
-    def get_coefficients_values(self, point: np.ndarray) -> Optional[np.darray]:
+    def get_coefficients_values(self, point: np.ndarray) -> Optional[np.ndarray]:
         for i in range(self._dimensions):
             if point[i] < self._boundaries_low[i] or self._boundaries_high[i] < point[i]:
                 return None

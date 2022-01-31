@@ -18,7 +18,7 @@ class Main:
         if len(args) == 1:
             self._meta_data = self.load_from_json(args[0])
         else:
-            self._meta_data = MetaData(args[0], SegmentsGenerator(args[0], args[1], args[2]).segments)
+            self._meta_data = MetaData(args[0], SegmentsGenerator(args[0], args[1], args[2], args[3], args[4]).segments)
         self._ground_truth = GroundTruth(self._meta_data)
 
     @staticmethod
@@ -28,11 +28,13 @@ class Main:
         for segment in json[0]:
             boundaries_low = [x[0] for x in segment["ranges"].values()]
             boundaries_high = [x[1] for x in segment["ranges"].values()]
+            data_samples_min = segment["data_samples"]["min"]
+            data_samples_max = segment["data_samples"]["max"]
             coefficients_A = [coef for coef in segment["coefficients_A"].values()]
             coefficients_B = segment["coefficients_B"]
-            data_samples_number = segment["data_samples_number"]
-            segments.append(Segment(dimensions, np.array(boundaries_low), np.array(boundaries_high),
-                                    np.array(coefficients_A), coefficients_B, data_samples_number))
+            data_samples_number = segment["data_samples"]["number"]
+            segments.append(Segment(dimensions, np.array(boundaries_low), np.array(boundaries_high), data_samples_min,
+                                    data_samples_max, np.array(coefficients_A), coefficients_B, data_samples_number))
         return MetaData(dimensions, segments)
 
     def make_dataset_csv_file(self) -> None:
