@@ -3,23 +3,6 @@ from meta_data import MetaData
 
 
 class Generator:
-    """
-    This class generates a dataset given an instance of meta-data.
-    ...
-
-    Attributes
-    ----------
-    meta_data : MetaData
-        This instance of MetaData holds the information of the segments and the corresponding linear function of each
-        segment.
-
-    Methods
-    -------
-    create_dataset()
-        This function returns the samples a set of points from each segment and returns the points and their
-        corresponding y-values.
-    """
-
     def __init__(self, meta_data: MetaData):
         self._meta_data = meta_data
 
@@ -29,3 +12,20 @@ class Generator:
         df = pd.DataFrame(data_samples, columns=columns)
         df = df.sample(frac=1).reset_index(drop=True)
         df.to_csv("dataset.csv")
+
+    # """
+    # This class generates a dataset given an instance of meta-data.
+    # ...
+    #
+    # Attributes
+    # ----------
+    # meta_data : MetaData
+    #     This instance of MetaData holds the information of the segments and the corresponding linear function of each
+    #     segment.
+    #
+    # Methods
+    # -------
+    # create_dataset()
+    #     This function returns the samples a set of points from each segment and returns the points and their
+    #     corresponding y-values.
+    # """

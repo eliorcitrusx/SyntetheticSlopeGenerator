@@ -7,18 +7,12 @@ import numpy as np
 
 
 class Main:
-
-    """A bird with a flight speed exceeding that of an unladen swallow.
-
-    Attributes:
-        flight_speed     The maximum speed that such a bird can attain.
-        nesting_grounds  The locale where these birds congregate to reproduce.
-    """
     def __init__(self, *args):
         if len(args) == 1:
             self._meta_data = self.load_from_json(args[0])
         else:
-            self._meta_data = MetaData(args[0], SegmentsGenerator(args[0], args[1], args[2], args[3], args[4]).segments)
+            self._meta_data = MetaData(args[0], SegmentsGenerator(args[0], args[1], args[2], args[3], args[4])
+            .segments)
         self._ground_truth = GroundTruth(self._meta_data)
 
     @staticmethod
