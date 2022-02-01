@@ -45,13 +45,13 @@ class Segment:
         y_samples = np.dot(x_samples, self._coefficients_A) + self._coefficients_B
         return np.column_stack((x_samples, y_samples))
 
-    def get_y_value(self, point: np.ndarray) -> Optional[float]:
+    def predict(self, point: np.ndarray) -> Optional[float]:
         for i in range(self._dimensions):
             if point[i] < self._boundaries_low[i] or self._boundaries_high[i] < point[i]:
                 return None
         return np.dot(point, self._coefficients_A) + self._coefficients_B
 
-    def get_coefficients_values(self, point: np.ndarray) -> Optional[np.ndarray]:
+    def coefficients(self, point: np.ndarray) -> Optional[np.ndarray]:
         for i in range(self._dimensions):
             if point[i] < self._boundaries_low[i] or self._boundaries_high[i] < point[i]:
                 return None

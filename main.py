@@ -33,14 +33,14 @@ def generate_test_dataset(json_file_name: str, data_samples_number: int):
     Generator.make_dataset_csv_file(meta_data, test_file_name)
 
 
-def get_y_values(json_file_name: str):
+def predict(json_file_name: str):
     with open(json_file_name, 'r') as file:
         json = load(file)
     meta_data = _generate_meta_data_from_json(json, True)
-    return GroundTruth(meta_data).get_y_values
+    return GroundTruth(meta_data).predict
 
 
-def get_coefficients_values(json_file_name: str):
+def coefficients(json_file_name: str):
     with open(json_file_name, 'r') as file:
         json = load(file)
     meta_data = _generate_meta_data_from_json(json, True)

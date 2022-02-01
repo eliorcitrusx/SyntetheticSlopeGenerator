@@ -38,7 +38,7 @@ class MetaData:
         return {"dimensions": self._dimensions, "data_type": self._data_type, "noise_level": self._noise_level,
                 "segments": [segment.export_to_json() for segment in self._segments]}
 
-    def get_y_values(self, points: np.ndarray) -> np.ndarray:
+    def predict(self, points: np.ndarray) -> np.ndarray:
         y_values = np.zeros(shape=(points.shape[0], 1), dtype=float)
         for i, point in enumerate(points):
             if len(point) != self._dimensions:
@@ -50,7 +50,7 @@ class MetaData:
                     break
         return y_values
 
-    def get_coefficients_values(self, points: np.ndarray) -> np.ndarray:
+    def coefficients(self, points: np.ndarray) -> np.ndarray:
         coefficients_values = np.zeros(shape=(points.shape[0], self._dimensions), dtype=float)
         for i, point in enumerate(points):
             if len(point) != self._dimensions:
