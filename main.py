@@ -5,6 +5,7 @@ from meta_data import MetaData
 from data_type import DataType
 from segment import Segment
 from generator import Generator
+from ground_truth import GroundTruth
 
 
 def create_meta_data(dimensions: int, data_type: DataType, noise_level: float, boundaries_low: List,
@@ -27,6 +28,20 @@ def generate_test_dataset(json_file_name: str, data_samples_number: int):
     meta_data = _generate_meta_data_from_json(json, False, data_samples_number)
     test_file_name = ""  # add file name
     Generator.make_dataset_csv_file(meta_data, test_file_name)
+
+
+def get_y_values(json_file_name: str, points: np.ndarray):
+    with open(json_file_name, 'r') as file:
+        json = load(file)
+    meta_data = _generate_meta_data_from_json(json, True)
+    return GroundTruth().get_y_values(meta_data, points)
+
+
+def get_coefficients_values(json_file_name: str, points: np.ndarray):
+    with open(json_file_name, 'r') as file:
+        json = load(file)
+    meta_data = _generate_meta_data_from_json(json, True)
+    return GroundTruth().get_y_values(meta_data, points)
 
 
 def _generate_meta_data_from_json(json: Dict, is_train: bool, test_data_samples_number: int = None) -> MetaData:

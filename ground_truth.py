@@ -3,14 +3,16 @@ import numpy as np
 
 
 class GroundTruth:
-    def __init__(self, meta_data: MetaData):
-        self._meta_data = meta_data
+    def __init__(self):
+        pass
 
-    def get_y_values(self, points: np.ndarray) -> np.ndarray:
-        return self._meta_data.get_y_values(points)
+    @staticmethod
+    def get_y_values(meta_data: MetaData, points: np.ndarray) -> np.ndarray:
+        return meta_data.get_y_values(points)
 
-    def get_coefficients_values(self, points: np.ndarray) -> np.ndarray:
-        return self._meta_data.get_coefficients_values(points)
+    @staticmethod
+    def get_coefficients_values(meta_data: MetaData, points: np.ndarray) -> np.ndarray:
+        return meta_data.get_coefficients_values(points)
 
 # """
 #     This class is used for returning  the y-value for a queried x.
