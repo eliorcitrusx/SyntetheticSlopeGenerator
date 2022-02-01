@@ -1,4 +1,4 @@
-from json import load
+from json import dump, load
 from typing import List, Dict
 import numpy as np
 from meta_data import MetaData
@@ -8,17 +8,20 @@ from generator import Generator
 from ground_truth import GroundTruth
 
 
-def create_meta_data(dimensions: int, data_type: DataType, noise_level: float, boundaries_low: List,
-                     boundaries_high: List, data_samples_min: int, data_samples_max: int) -> None:
-    MetaData(dimensions, data_type, noise_level, boundaries_low, boundaries_high, data_samples_min,
-             data_samples_max).export_to_json()
+def create_meta_data_to_json(dimensions: int, data_type: DataType, noise_level: float, boundaries_low: List,
+                             boundaries_high: List, data_samples_min: int, data_samples_max: int) -> None:
+    meta_Data = MetaData(dimensions, data_type, noise_level, boundaries_low, boundaries_high, data_samples_min,
+                         data_samples_max)
+    dictionary = meta_Data.generate_json_dictionary()
+    with open(_generate_file_name(meta_Data, "json"), "w") as file:
+        dump(dictionary, file)
 
 
 def generate_train_dataset(json_file_name: str):
     with open(json_file_name, 'r') as file:
         json = load(file)
     meta_data = _generate_meta_data_from_json(json, True)
-    train_file_name = ""  # add file name
+    train_file_name = _generate_file_name(meta_data, "train.csv")
     Generator.make_dataset_csv_file(meta_data, train_file_name)
 
 
@@ -26,22 +29,22 @@ def generate_test_dataset(json_file_name: str, data_samples_number: int):
     with open(json_file_name, 'r') as file:
         json = load(file)
     meta_data = _generate_meta_data_from_json(json, False, data_samples_number)
-    test_file_name = ""  # add file name
+    test_file_name = _generate_file_name(meta_data, "test.csv")
     Generator.make_dataset_csv_file(meta_data, test_file_name)
 
 
-def get_y_values(json_file_name: str, points: np.ndarray):
+def get_y_values(json_file_name: str):
     with open(json_file_name, 'r') as file:
         json = load(file)
     meta_data = _generate_meta_data_from_json(json, True)
-    return GroundTruth().get_y_values(meta_data, points)
+    return GroundTruth(meta_data).get_y_values
 
 
-def get_coefficients_values(json_file_name: str, points: np.ndarray):
+def get_coefficients_values(json_file_name: str):
     with open(json_file_name, 'r') as file:
         json = load(file)
     meta_data = _generate_meta_data_from_json(json, True)
-    return GroundTruth().get_y_values(meta_data, points)
+    return GroundTruth(meta_data).get_coefficients_values
 
 
 def _generate_meta_data_from_json(json: Dict, is_train: bool, test_data_samples_number: int = None) -> MetaData:
@@ -60,3 +63,11 @@ def _generate_meta_data_from_json(json: Dict, is_train: bool, test_data_samples_
         segments.append(Segment(dimensions, np.array(boundaries_low), np.array(boundaries_high), data_samples_min,
                                 data_samples_max, np.array(coefficients_A), coefficients_B, data_samples_number))
     return MetaData(dimensions, data_type, noise_level, segments)
+
+
+def _generate_file_name(meta_data: MetaData, file_type: str) -> str:
+    dimensions = meta_data.dimensions
+    segments_number = len(meta_data.segments)
+    data_samples_min = meta_data.segments[0].data_samples_min
+    data_samples_max = meta_data.segments[0].data_samples_max
+    return f"syn_slope_{dimensions}d_{segments_number}s_{data_samples_min}-{data_samples_max}ds." + file_type

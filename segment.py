@@ -24,6 +24,14 @@ class Segment:
         self._data_samples_number = data_samples_number if data_samples_number else randint(data_samples_min,
                                                                                             data_samples_max)
 
+    @property
+    def data_samples_min(self):
+        return self._data_samples_min
+
+    @property
+    def data_samples_max(self):
+        return self._data_samples_max
+
     def export_to_json(self) -> Dict[str, Any]:
         ranges = {f"x{i + 1}": [self._boundaries_low[i], self._boundaries_high[i]] for i in range(self._dimensions)}
         coefficients_A = {f"x{i + 1}": self._coefficients_A[i] for i in range(self._dimensions)}

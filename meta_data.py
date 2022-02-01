@@ -1,5 +1,4 @@
-from json import dump
-from typing import List
+from typing import List, Dict
 import numpy as np
 from itertools import product
 from segment import Segment
@@ -35,11 +34,9 @@ class MetaData:
         return [Segment(self._dimensions, low_edges[i], high_edges[i], data_samples_min, data_samples_max)
                 for i in range(len(low_edges))]
 
-    def export_to_json(self):
-        dictionary = {"dimensions": self._dimensions, "data_type": self._data_type, "noise_level": self._noise_level,
-                      "segments": [segment.export_to_json() for segment in self._segments]}
-        with open("file_name.json", "w") as file:  # create proper file name
-            dump(dictionary, file)
+    def generate_json_dictionary(self) -> Dict:
+        return {"dimensions": self._dimensions, "data_type": self._data_type, "noise_level": self._noise_level,
+                "segments": [segment.export_to_json() for segment in self._segments]}
 
     def get_y_values(self, points: np.ndarray) -> np.ndarray:
         y_values = np.zeros(shape=(points.shape[0], 1), dtype=float)
